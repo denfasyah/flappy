@@ -1,4 +1,4 @@
-let move_speed = 3, gravity = 0.5;
+ let move_speed = 3, gravity = 0.5;
   let bird = document.querySelector('.bird');
   let img = document.getElementById('bird-1');
   let sound_run = new Audio('sounds effect/run.mp3');
@@ -15,7 +15,7 @@ let move_speed = 3, gravity = 0.5;
   // getting bird element properties
   let bird_props = bird.getBoundingClientRect();
 
-  // This method returns DOMReact -> top, right, bottom, left, x, y, width, and height
+  // This method returns DOMRect -> top, right, bottom, left, x, y, width, and height
   let background = document.querySelector('.background').getBoundingClientRect();
 
   let score_val = document.querySelector('.score_val');
@@ -43,9 +43,13 @@ let move_speed = 3, gravity = 0.5;
     }
   });
 
-  // Handling click events on mobile devices
-  document.addEventListener('touchstart', (e) => {
+  // Handling touch events on mobile devices
+  document.addEventListener('touchstart', handleTouchStart);
+  document.addEventListener('touchend', handleTouchEnd);
+
+  function handleTouchStart(e) {
     e.preventDefault(); // Prevent default behavior (e.g., scrolling)
+
     if (game_state == 'Start') {
       document.querySelectorAll('.pipe_sprite').forEach((e) => {
         e.remove();
@@ -63,13 +67,13 @@ let move_speed = 3, gravity = 0.5;
       img.src = 'images/Bird-2.png';
       bird_dy = -7.6;
     }
-  });
+  }
 
-  document.addEventListener('touchend', (e) => {
+  function handleTouchEnd() {
     if (game_state == 'Play') {
       img.src = 'images/Bird.png';
     }
-  });
+  }
 
   function play() {
     function move() {
